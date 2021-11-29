@@ -1,0 +1,5 @@
+[flake8]
+exclude = .git,__pycache__,venv,.venv
+max-complexity = 10
+max-doc-length = 79
+max-line-length = 88
