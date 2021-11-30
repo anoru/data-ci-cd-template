@@ -1,0 +1,23 @@
+-r requirements.txt
+
+black[jupyter]  # Formatting
+flake8  # Linting
+ipykernel  # Jupyter notebooks kernel
+isort  # Sorting imports
+jsonschema  # JSON schema validation
+mypy  # Static type checking
+nbformat  # Plotly rendering in Jupyter notebooks
+plotly  # Plotting library
+pre-commit  # Git commit hooks
+pyright # Static type checking
+pytest  # Testing
+pytest-cov  # Testing
+pytest-srcpaths  #  Add "." to the PYTHONPATH from the pyproject.toml file so that we can do "from deployment import ..." (will be built-in pytest 7: https://github.com/okken/pytest-srcpaths#alternatively-use-pythonpath and https://github.com/pytest-dev/pytest/pull/9134)
+pyupgrade  # Automatically upgrade syntax
+requests  # For integration test
+scikit-learn  # Machine learning
+tenacity  # To retry tests relying on service that could have cold start
+tqdm  # Convenient progress bar
+types-Flask  # Type stubs for Flask
+types-requests # Type stub for requests
+types-setuptools  # Type stubs for setuptools
