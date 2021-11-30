@@ -39,7 +39,7 @@ A logical, reasonably standardized, but flexible project structure for doing and
     |   └── benchmark          <- benchmark job
     |
     ├── src
-    │   └── {{cookiecutter.project_name}}  <- Source code for use in the project.
+    │   └── {{cookiecutter.project_slug_under}}  <- Source code for use in the project.
     │      └── __init__.py     <- Makes src a Python module
     │
     ├── deployment             <- Scripts to test and deploy
@@ -98,7 +98,7 @@ pip install .
 ```
 
 ```python
-from {{cookiecutter.project_name}} import *
+from {{cookiecutter.project_slug}} import *
 
 ```
 

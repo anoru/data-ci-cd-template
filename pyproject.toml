@@ -46,5 +46,5 @@ pythonpath = "."
 
 [tool.coverage.run]
 omit = [
-    "**/{{cookiecutter.project_name}}/data_science/*"
+    "**/{{cookiecutter.project_slug_under}}/data_science/*"
 ]

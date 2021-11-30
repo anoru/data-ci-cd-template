@@ -2,8 +2,9 @@
 
 .PHONY: virtual install build-requirements black isort flake8
 
-PROJECT_NAME = {{cookiecutter.project_name}}
-DOCKER_IMAGE = {{cookiecutter.project_name}}
+PROJECT_NAME = {{cookiecutter.project_slug}}
+PROJECT_NAME_UNDER = {{cookiecutter.project_slug_under}}
+DOCKER_IMAGE = {{cookiecutter.project_slug}}
 DOCKER_IMAGE_SAGEMAKER = ${DOCKER_IMAGE}-sagemaker
 DOCKER_IMAGE_SAGEMAKER_ENDPOINT = ${DOCKER_IMAGE_SAGEMAKER}-endpoint
 CURRENT_TIMESTAMP != date -u +'%Y-%m-%d-%H-%M-%S'
@@ -67,10 +68,10 @@ jupyter: .venv/bin/ipython
 	.venv/bin/ipython kernel install --user --name=$(PROJECT_NAME)
 
 local-run-endpoint:
-	FLASK_ENV=development FLASK_APP=src/{{cookiecutter.project_name}}.server_api flask run --port 8080
+	FLASK_ENV=development FLASK_APP=src/${PROJECT_NAME_UNDER}.server_api flask run --port 8080
 
 docker-build-endpoint:
-	docker build  -f src/{{cookiecutter.project_name}}/Dockerfile.endpoint . -t ${DOCKER_IMAGE_SAGEMAKER_ENDPOINT}
+	docker build  -f src/${PROJECT_NAME_UNDER}/Dockerfile.endpoint . -t ${DOCKER_IMAGE_SAGEMAKER_ENDPOINT}
 
 docker-run-endpoint:
 	docker run -p 8080:8080 -t ${DOCKER_IMAGE_SAGEMAKER_ENDPOINT}
@@ -82,7 +83,7 @@ run-mypy: virtual
 
 python-test-coverage: python-install
 	.venv/bin/pip install -r requirements-dev.txt
-	.venv/bin/pytest --cov={{cookiecutter.project_name}} --cov-report xml:cov.xml --cov-report html
+	.venv/bin/pytest --cov=${PROJECT_NAME_UNDER} --cov-report xml:cov.xml --cov-report html
 
 docker-sagemaker-build-and-push:
 	aws --region ${REGION} ecr get-login-password | docker login --username AWS --password-stdin ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${REPOSITORY}
@@ -91,11 +92,11 @@ docker-sagemaker-build-and-push:
 
 docker-sagemaker-endpoint-build-and-push:
 	aws --region ${REGION} ecr get-login-password | docker login --username AWS --password-stdin ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${REPOSITORY}
-	docker build  -f src/{{cookiecutter.project_name}}/Dockerfile.endpoint . -t ${DOCKER_IMAGE_SAGEMAKER_ENDPOINT} -t ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${REPOSITORY}:${DOCKER_IMAGE_SAGEMAKER_ENDPOINT}
+	docker build  -f src/${PROJECT_NAME_UNDER}/Dockerfile.endpoint . -t ${DOCKER_IMAGE_SAGEMAKER_ENDPOINT} -t ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${REPOSITORY}:${DOCKER_IMAGE_SAGEMAKER_ENDPOINT}
 	docker push ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${REPOSITORY}:${DOCKER_IMAGE_SAGEMAKER_ENDPOINT}
 
 deployment-endpoint:
-	aws sagemaker update-endpoint --endpoint-name {{cookiecutter.project_name}}-manual --endpoint-config-name {{cookiecutter.project_name}}-manual
+	aws sagemaker update-endpoint --endpoint-name ${PROJECT_NAME}-manual --endpoint-config-name ${PROJECT_NAME}-manual
 
 check-deployment-endpoint:
-	aws sagemaker describe-endpoint --endpoint-name {{cookiecutter.project_name}}-manual
+	aws sagemaker describe-endpoint --endpoint-name ${PROJECT_NAME}-manual
