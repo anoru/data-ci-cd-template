@@ -3,7 +3,7 @@
 .PHONY: virtual install build-requirements black isort flake8
 
 PROJECT_NAME = {{cookiecutter.project_slug}}
-PROJECT_NAME_UNDER = {{cookiecutter.project_slug_under}}
+PROJECT_NAME_UNDER = {{cookiecutter.project_slug.replace('-', '_')}}
 DOCKER_IMAGE = {{cookiecutter.project_slug}}
 DOCKER_IMAGE_SAGEMAKER = ${DOCKER_IMAGE}-sagemaker
 DOCKER_IMAGE_SAGEMAKER_ENDPOINT = ${DOCKER_IMAGE_SAGEMAKER}-endpoint
