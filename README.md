@@ -1,123 +1,59 @@
-# Data CI/CD template
+# Data CI CD Template
 
-[![pre-commit](https://github.com/anoru/data-ci-cd-template/actions/workflows/pre-commit.yaml/badge.svg)](https://github.com/anoru/data-ci-cd-template/actions/workflows/pre-commit.yaml)
-[![test-coverage](https://github.com/anoru/data-ci-cd-template/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/anoru/data-ci-cd-template/actions/workflows/test-coverage.yaml)
-[![type-checks](https://github.com/anoru/data-ci-cd-template/actions/workflows/type-checks.yaml/badge.svg)](https://github.com/anoru/data-ci-cd-template/actions/workflows/type-checks.yaml)
-[![unit-tests](https://github.com/anoru/data-ci-cd-template/actions/workflows/unit-tests.yaml/badge.svg)](https://github.com/anoru/data-ci-cd-template/actions/workflows/unit-tests.yaml)
+_A logical, reasonably standardized, but flexible project structure for doing and sharing data work._
 
-# Purpose
 
-A logical, reasonably standardized, but flexible project structure for doing and sharing data work.
+### Requirements to use the cookiecutter template:
+-----------
+ - Python 2.7 or later
+ - [Cookiecutter Python package](http://cookiecutter.readthedocs.org/en/latest/installation.html) >= 1.4.0: This can be installed with pip by or conda depending on how you manage your Python packages:
 
-# Project Organization
-
-    ├── LICENSE
-    ├── .github/workflows      <- Github actions to automate, customize, and execute the project workflows
-    ├── Makefile               <- Makefile with commands like `make virtual` or `make install`
-    ├── README.md              <- The top-level README for developers using this project.
-    ├── data                   <- This folder is only for unit test data, delete .gitkeep to not include
-    │   ├── processed          <- The final, canonical data sets for modeling.
-    │   └── raw                <- The original, immutable data dump.
-    │
-    ├── docs                   <- A default Sphinx project; see sphinx-doc.org for details
-    │   ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
-    │   └── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │      └── figures         <- Generated graphics and figures to be used in reporting
-    │
-    ├── notebooks              <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                             the creator's initials, and a short `-` delimited description, e.g.
-    │                             `1.0-az-initial-data-exploration`.
-    │
-    ├── requirements.txt       <- The requirements file for reproducing the analysis environment, e.g.
-    │                             generated with `pip freeze > requirements.txt`
-    │
-    ├── requirements-dev.txt   <- The requirements file for dev and test.
-    │
-    ├── setup.py               <- makes project pip installable (pip install -e .) so project can be imported
-    │
-    |── pipelines              <- job and pipelines to run
-    |   └── benchmark          <- benchmark job
-    |
-    ├── src
-    │   └── {{cookiecutter.project_slug_under}}  <- Source code for use in the project.
-    │      └── __init__.py     <- Makes src a Python package
-    │
-    ├── deployment             <- Scripts to test and deploy
-    │   │
-    │   ├── models             <- store the ml models.
-    │   │
-    │   ├── integration_tests  <- Here goes the integration pipelines test. Executed when merging to main
-    │   │   └── pipeline1
-    │   │       └── test_example.py
-    │   │
-    │   └── unit_tests         <- Here goes the unit tests. Executed for every push
-    │       └── test_example.py
-    └──
-
-# Usage
-
-## As Flask API
-
-### Local run
-
-Run Flask application in debug mode
-
-```bash
-make local-run-endpoint
+``` bash
+$ pip install cookiecutter pathlib
 ```
 
-### Docker run
+or
 
-Build the docker image
-
-```bash
-make docker-build-endpoint
+``` bash
+$ conda config --add channels conda-forge
+$ conda install cookiecutter pathlib
 ```
 
-And finally run it
 
-```bash
-make docker-run-endpoint
-```
+### To start a new project, run:
+------------
 
-### Test local
+    cookiecutter git+ssh://git@github.com/anoru/data-ci-cd-template
 
-With `make local-run-endpoint`, we launch a local Flask server from our virtual environment. The default base url is 127.0.0.1:8080.
-With `make docker-run-endpoint`, we launch a local Flask server from the Docker image. The default base url is 172.17.0.2:8080. Docker uses the default 172.17.0.0/16 subnet for container networking.
+    or
 
-```bash
-curl -X POST http://127.0.0.1:8080/invocations -d '{"body": "test"}' -H "content-type: application/json"
-```
+    cookiecutter https://github.com/anoru/data-ci-cd-template
 
-## As a package
 
-Here an example on how to use the schema mapping as a package
+### The resulting directory structure
+------------
 
-```bash
-pip install .
-```
+The directory structure of your new project depends on your choices during the above cmd line.
 
-```python
-from {{cookiecutter.project_slug}} import *
+### References
+------------
 
-```
+- <p><a target="_blank" href="https://databricks.com/fr/blog/2020/01/16/automate-deployment-and-testing-with-databricks-notebook-mlflow.html">Automate deployment and testing with databricks notebook mlflow</a></p>
 
-# Deployment
+- <p><a target="_blank" href="https://databricks.com/fr/blog/2017/10/30/continuous-integration-continuous-delivery-databricks.html">Continuous integration and continuous delivery with databricks</a></p>
 
-## Github Action
+- <p><a target="_blank" href="https://docs.databricks.com/dev-tools/ci-cd/ci-cd-jenkins.html">Continuous integration and delivery on Databricks using Jenkins</a></p>
 
-    ├── On push:
-    │   └── unit-tests                <- Run tests against the installed package and make sure they all pass.
-    │
-    ├── On pull_request:
-    │   ├── unit-tests                <- Run tests against the installed package and make sure they all pass.
-    │   ├── integration-tests         <- Run integration tests against the docker image and make sure they all pass.
-    │   ├── test-coverage             <- Install dependencies, create coverage tests and run Pytest Coverage Commentator.
-    │   ├── type-checks               <- Use Mypy and pyright to perform static type checking, and make sure no type error was introduced.
-    │   ├── pre-commit                <- Run `pre-commit` on all files. run `pre-commit install` in order to perform the checks on each commit automatically.
-    │   └── check-version-increase    <- Check if the version is increased when modifying python files.
-    │
-    └── On push to main:
-        ├── unit-tests                <- Run tests against the installed package and make sure they all pass.
-        ├── integration-tests         <- Run integration tests against the docker image and make sure they all pass.
-        └── save-artifacts            <- Save the docker image as a tarball & the model file in github artifacts.
+- <p><a target="_blank" href="https://databricks.com/blog/2020/06/05/automate-continuous-integration-and-continuous-delivery-on-databricks-using-databricks-labs-ci-cd-templates.html">Automate continuous integration and continuous delivery on Databricks using Databricks Labs CI/CD Templates</a></p>
+
+- <p><a target="_blank" href="https://databricks.com/session_na20/continuous-delivery-of-ml-enabled-pipelines-on-databricks-using-mlflow">Continuous Delivery of ML-Enabled Pipelines on Databricks using MLflow</a></p>
+
+- <p><a target="_blank" href="https://resources.github.com/whitepapers/GitHub-Actions-Cheat-sheet/">GitHub Actions Cheat Sheet</a></p>
+
+- <p><a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">Cookiecutter data science project template</a></p>
+
+- <p><a target="_blank" href="https://github.com/databrickslabs/cicd-templates">Databricks Labs CI/CD Templates: Automated Databricks CI/CD pipeline creation and deployment</a></p>
+
+- <p><a target="_blank" href="https://github.com/mshtelma/lendingclubsscoringdemo">Databricks Labs CI/CD Templates Tutorial - lendingclubsscoringdemo</a></p>
+
+- <p><a target="_blank" href="https://github.com/mshtelma/cicdtestdev">Databricks actions - cicdtestdev</a></p>

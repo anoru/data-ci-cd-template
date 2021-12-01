@@ -22,9 +22,9 @@ jobs:
       - name: Declare variables
         run: cat setup.py | grep version | grep -E "([0-9]+.[0-9]+.[0-9]+)" --only-matching > TAG_VERSION
       - name: Build the inference image
-        run: docker build -t {{cookiecutter.project_slug}}:$(cat TAG_VERSION) -f src/{{cookiecutter.project_slug_under}}/Dockerfile.endpoint .
+        run: docker build -t {project_slug}:$(cat TAG_VERSION) -f src/{project_slug_under}/Dockerfile.endpoint .
       - name: Run image
         run: | # force background run for this step
-            docker run -d -p 8080:8080 -t {{cookiecutter.project_slug}}:$(cat TAG_VERSION)
+            docker run -d -p 8080:8080 -t {project_slug}:$(cat TAG_VERSION)
       - name: Run tests
         run: pytest deployment/integration_tests/docker_server_api.py
