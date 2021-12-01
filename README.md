@@ -40,7 +40,7 @@ A logical, reasonably standardized, but flexible project structure for doing and
     |
     ├── src
     │   └── {{cookiecutter.project_slug_under}}  <- Source code for use in the project.
-    │      └── __init__.py     <- Makes src a Python module
+    │      └── __init__.py     <- Makes src a Python package
     │
     ├── deployment             <- Scripts to test and deploy
     │   │

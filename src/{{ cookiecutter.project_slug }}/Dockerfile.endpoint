@@ -1,0 +1,32 @@
+FROM python:3.8
+
+# Work directory
+RUN mkdir -p /opt/program
+WORKDIR /opt/program/
+
+# Install the {{cookiecutter.project_slug_under}} package
+# `--use-feature=in-tree-build` will be the new default in pip 21.3 (https://github.com/pypa/pip/issues/7555).
+COPY setup.py setup.py
+COPY requirements.txt requirements.txt
+COPY src src
+RUN pip install . --use-feature=in-tree-build
+RUN rm -r setup.py requirements.txt src
+
+# PYTHONUNBUFFERED keeps Python from buffering our standard output stream, which means that logs can be delivered to the user quickly.
+ENV PYTHONUNBUFFERED=TRUE
+
+# Sagemaker overrides the CMD with "serve". Therefore, we create the "serve" executable that runs the flask server.
+# https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-inference-code.html
+# https://github.com/aws/amazon-sagemaker-examples/tree/master/advanced_functionality/scikit_bring_your_own
+#
+# Optimal number of Gunicorn workers = (2*CPU)+1
+# https://docs.gunicorn.org/en/latest/design.html#how-many-workers
+RUN echo '#!/bin/bash\n\ngunicorn {{cookiecutter.project_slug_under}}.server_api:flask_app -b 0.0.0.0:8080 --workers 5' > /opt/program/serve && \
+    chmod +x /opt/program/serve
+ENV PATH="/opt/program:${PATH}"
+
+# Set up a non-root user
+RUN useradd anoru
+USER anoru
+
+CMD ["serve"]
