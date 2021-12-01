@@ -81,8 +81,8 @@ make docker-run-endpoint
 
 ### Test local
 
-With `make local-run-endpoint`, we launch a local Flask server from our virtual environment. The default base url is 127.0.0.1:8080.
-With `make docker-run-endpoint`, we launch a local Flask server from the Docker image. The default base url is 172.17.0.2:8080. Docker uses the default 172.17.0.0/16 subnet for container networking.
+With `make local-run-endpoint`, we launch a local Flask server from our virtual environment.
+With `make docker-run-endpoint`, we launch a local Flask server from the Docker image.
 
 ```bash
 curl -X POST http://127.0.0.1:8080/invocations -d '{"body": "test"}' -H "content-type: application/json"
