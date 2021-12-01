@@ -36,14 +36,14 @@ def test_post_none_body() -> None:
     # WHEN
     response = requests.post(f"{PROJECT_URL}/invocations", json=json_body)
     # THEN
-    assert response.status_code == 400
+    assert response.status_code == 415
 
 
 @retry(stop=stop_after_delay(WAIT_IN_SECONDS))
-def test_post_empty_body() -> None:
+def test_post_body() -> None:
     # GIVEN
-    json_body: Dict[str, str] = {}
+    json_body: Dict[str, str] = {"body": "test"}
     # WHEN
     response = requests.post(f"{PROJECT_URL}/invocations", json=json_body)
     # THEN
-    assert response.status_code == 500 
+    assert response.status_code == 200 

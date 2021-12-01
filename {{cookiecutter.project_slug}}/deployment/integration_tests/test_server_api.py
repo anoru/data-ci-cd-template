@@ -31,4 +31,12 @@ def test_post_none_body(client: Flask) -> None:
     # WHEN
     response = client.post("/invocations", json=json_body)
     # THEN
-    assert response.status_code == 400
+    assert response.status_code == 415
+
+def test_post_body(client: Flask) -> None:
+    # GIVEN
+    json_body = {"body": "test"}
+    # WHEN
+    response = client.post("/invocations", json=json_body)
+    # THEN
+    assert response.status_code == 200
