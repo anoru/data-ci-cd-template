@@ -23,7 +23,6 @@ jobs:
         run: pytest --cov=lab_schema_mapping --cov-report term-missing | tee pytest-coverage.txt
       - name: Comment coverage
         uses: coroo/pytest-coverage-commentator@v1.0.2
-      # TODO: Check coverage for individual files too, and not only the global coverage percentage
       - name: fail-if-coverage-is-lower-than-requested
         run: |
           FULL_COVERAGE=`cat pytest-coverage.txt | grep "TOTAL" | grep -E "([0-9]+)%" --only-matching | grep -E "([0-9]+)" --only-matching`
