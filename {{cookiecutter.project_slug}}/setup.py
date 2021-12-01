@@ -10,7 +10,7 @@ setup(
     author="{{cookiecutter.author}}",
     install_requires=install_requires,
     # https://www.python.org/dev/peps/pep-0561/
-    package_data={"{{cookiecutter.project_slug_under}}": ["py.typed"]},
+    package_data={"{{cookiecutter.project_slug.replace('-', '_')}}": ["py.typed"]},
     # prevent some edge case were py.typed isn't taken into account
     # https://github.com/python/mypy/issues/8802
     zip_safe=False,

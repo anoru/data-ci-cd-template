@@ -4,7 +4,7 @@ FROM python:3.8
 RUN mkdir -p /opt/program
 WORKDIR /opt/program/
 
-# Install the {{cookiecutter.project_slug_under}} package
+# Install the {{cookiecutter.project_slug.replace('-', '_')}} package
 # `--use-feature=in-tree-build` will be the new default in pip 21.3 (https://github.com/pypa/pip/issues/7555).
 COPY setup.py setup.py
 COPY requirements.txt requirements.txt
@@ -21,7 +21,7 @@ ENV PYTHONUNBUFFERED=TRUE
 #
 # Optimal number of Gunicorn workers = (2*CPU)+1
 # https://docs.gunicorn.org/en/latest/design.html#how-many-workers
-RUN echo '#!/bin/bash\n\ngunicorn {{cookiecutter.project_slug_under}}.server_api:flask_app -b 0.0.0.0:8080 --workers 5' > /opt/program/serve && \
+RUN echo '#!/bin/bash\n\ngunicorn {{cookiecutter.project_slug.replace('-', '_')}}.server_api:flask_app -b 0.0.0.0:8080 --workers 5' > /opt/program/serve && \
     chmod +x /opt/program/serve
 ENV PATH="/opt/program:${PATH}"
 

@@ -38,7 +38,7 @@
     |   └── benchmark          <- benchmark job
     |
     ├── src
-    │   └── {{cookiecutter.project_slug_under}}  <- Source code for use in the project.
+    │   └── {{cookiecutter.project_slug.replace('-', '_')}}  <- Source code for use in the project.
     │      └── __init__.py     <- Makes src a Python package
     │
     ├── deployment             <- Scripts to test and deploy
