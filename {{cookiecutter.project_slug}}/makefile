@@ -9,9 +9,9 @@ DOCKER_IMAGE_SAGEMAKER = ${DOCKER_IMAGE}-sagemaker
 DOCKER_IMAGE_SAGEMAKER_ENDPOINT = ${DOCKER_IMAGE_SAGEMAKER}-endpoint
 CURRENT_TIMESTAMP != date -u +'%Y-%m-%d-%H-%M-%S'
 # AWS Account ID
-REGION = {{cookiecutter.aws_region}}
-ACCOUNT_ID = {{cookiecutter.aws_account_id}}
-REPOSITORY = {{cookiecutter.ecr_repo_name}}
+REGION = "" #{{cookiecutter.aws_region}} Your AWS region
+ACCOUNT_ID = "" #{{cookiecutter.aws_account_id}} Your AWS account ID
+REPOSITORY = "" # {{cookiecutter.ecr_repo_name}} Your AWS ECR repository name
 
 clean-pyc:
 	find . -name '*.pyc' -exec rm --force {} +
