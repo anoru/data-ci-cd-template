@@ -26,7 +26,9 @@ show_error_codes = true
 [[tool.mypy.overrides]]
 module = [
     "plotly.*",
-    "sklearn.metrics"
+    "sklearn.metrics",
+    "scipy.*",
+    "gunicorn.*"
 ]
 ignore_missing_imports = true
 
