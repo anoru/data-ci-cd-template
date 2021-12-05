@@ -4,9 +4,8 @@
 # test cache
 .cache/*
 
-# vscode
-.vscode
+# VS Code
+.vscode/
 
 # virtual env
 .venv
-.vscode
