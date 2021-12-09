@@ -50,7 +50,9 @@
     │   │       └── test_example.py
     │   │
     │   └── unit_tests         <- Here goes the unit tests. Executed for every push
-    │       └── test_example.py
+    │   │    └── test_example.py
+    │   │
+    │   └── terraform          <- Here goes the terraform code to deploy the infra
     └──
 
 # Usage
@@ -90,7 +92,7 @@ curl -X POST http://127.0.0.1:8080/invocations -d '{"body": "test"}' -H "content
 
 ## As a package
 
-Here an example on how to use the schema mapping as a package
+Here an example on how to use the project as a package
 
 ```bash
 pip install .

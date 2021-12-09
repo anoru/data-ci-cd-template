@@ -86,11 +86,6 @@ python-test-coverage: python-install
 	.venv/bin/pip install -r requirements-dev.txt
 	.venv/bin/pytest --cov=${PROJECT_NAME_UNDER} --cov-report xml:cov.xml --cov-report html
 
-docker-sagemaker-build-and-push:
-	aws --region ${REGION} ecr get-login-password | docker login --username AWS --password-stdin ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${REPOSITORY}
-	docker build  -f Dockerfile.sagemaker . -t ${DOCKER_IMAGE_SAGEMAKER} -t ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${REPOSITORY}:${DOCKER_IMAGE_SAGEMAKER}
-	docker push ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${REPOSITORY}:${DOCKER_IMAGE_SAGEMAKER}
-
 docker-sagemaker-endpoint-build-and-push:
 	aws --region ${REGION} ecr get-login-password | docker login --username AWS --password-stdin ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${REPOSITORY}
 	docker build  -f src/${PROJECT_NAME_UNDER}/Dockerfile.endpoint . -t ${DOCKER_IMAGE_SAGEMAKER_ENDPOINT} -t ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${REPOSITORY}:${DOCKER_IMAGE_SAGEMAKER_ENDPOINT}
@@ -101,3 +96,6 @@ deployment-endpoint:
 
 check-deployment-endpoint:
 	aws sagemaker describe-endpoint --endpoint-name ${PROJECT_NAME}-manual
+
+performance-test:
+	JAVA_OPTS="-Durl_with_port=http://localhost:8080" gatling.sh -rsf data -sf deployment/performance_tests -rd "<test description>"

@@ -17,10 +17,10 @@ jobs:
           python-version: 3.8
       - name: Install development dependencies
         run: pip install -r requirements-dev.txt
-      - name: Install the lab_schema_mapping package
+      - name: Install the {project_slug_under} package
         run: pip install .
       - name: Run unit tests. Print the result to the console and save it in a text file as well.
-        run: pytest --cov=lab_schema_mapping --cov-report term-missing | tee pytest-coverage.txt
+        run: pytest --cov={project_slug_under} --cov-report term-missing | tee pytest-coverage.txt
       - name: Comment coverage
         uses: coroo/pytest-coverage-commentator@v1.0.2
       - name: fail-if-coverage-is-lower-than-requested
