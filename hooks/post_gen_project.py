@@ -78,7 +78,7 @@ class PostProcessor:
                 "Excute the cmd bellow to create a new connection record to your remote repository"
             )
             print("git remote add origin <Repo Link>")
-            print("ie: git remote add origin https://github.com/Talend/...")
+            print("ie: git remote add origin https://github.com/anoru/...")
 
             print("\n3- push the code to the main branch")
             print("git push -u origin main")
