@@ -5,6 +5,7 @@ import pytest
 from flask import Flask, Response
 from flask.testing import FlaskClient
 
+from {{cookiecutter.project_slug.replace('-', '_')}}.server_api import flask_app
 
 @pytest.fixture
 def app() -> Generator[Flask, None, None]:
