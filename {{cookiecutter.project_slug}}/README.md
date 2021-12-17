@@ -49,8 +49,10 @@
     │   │   └── pipeline1
     │   │       └── test_example.py
     │   │
-    │   └── unit_tests         <- Here goes the unit tests. Executed for every push
+    │   ├── unit_tests         <- Here goes the unit tests. Executed for every push
     │   │    └── test_example.py
+    │   │
+    │   ├── perfermance_tests <- Here goes perfermance tests. Executed manually
     │   │
     │   └── terraform          <- Here goes the terraform code to deploy the infra
     └──
